@@ -1,7 +1,8 @@
 //select variables
+const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
-const btn_reset = document.querySelector('.btn_reset');
+const start_game = document.querySelector('.btn_reset');
 
 
 // in-game variables
@@ -20,3 +21,8 @@ const phrases = [
     'to infinity and beyond',
     'do not be afraid to fail',
 ];
+
+//reset game
+overlay.addEventListener('click', () => {
+    overlay.style.display = "none";
+})
