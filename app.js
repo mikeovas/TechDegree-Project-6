@@ -25,7 +25,7 @@ const phrases = [
 ];
 
 
-//reset game
+//start game
 overlay.addEventListener('click', () => {
     overlay.style.display = "none";
 });
