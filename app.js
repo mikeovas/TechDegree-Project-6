@@ -4,13 +4,9 @@ const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
 const start_game = document.querySelector('.btn_reset');
 
+
 // in-game variables
 let missed_guess = 0;
-
-//reset game
-overlay.addEventListener('click', () => {
-    overlay.style.display = "none";
-});
 
 //arrays of phrases to select from
 const phrases = [
@@ -26,10 +22,37 @@ const phrases = [
     'do not be afraid to fail',
 ];
 
-//selection of a random phrase for the game
-function getRandomPhraseAsArray(phrases) {
-    const arrayLength = phrases.length;
+
+//reset game
+overlay.addEventListener('click', () => {
+    overlay.style.display = "none";
+});
+
+
+//function to select a random phrase for the game and split into letters
+function getRandomPhraseAsArray(arr) {
+    const arrayLength = arr.length;
     const randomNumber = Math.floor(Math.random() * arrayLength);
-    const chosenPhrase = phrases[randomNumber];
-    return chosenPhrase;
+    const chosenPhrase = arr[randomNumber];
+    return chosenPhrase.split("");
 };
+
+
+//assign letters to li with appropriate class
+const chars = getRandomPhraseAsArray(phrases);
+const phraseDiv = document.getElementById('phrase');
+const phraseUl = phraseDiv.children[0];
+
+for (i = 0; i < chars.length; i++) {
+    const char = chars[i];
+    const phraseLi = document.createElement('li');
+    phraseLi.textContent = char;
+
+    if (char !== " ") {
+        phraseLi.className = 'letter';
+    } else {
+        phraseLi.className = 'space';
+    }
+    phraseUl.appendChild(phraseLi);
+};
+console.log(phraseDiv);
