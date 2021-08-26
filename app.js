@@ -1,12 +1,14 @@
 //selection of variables
 const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
-const phrase = document.getElementById('phrase');
+const phraseDiv = document.getElementById('phrase');
+const phraseUl = phraseDiv.children[0];
 const start_game = document.querySelector('.btn_reset');
 
 
-// in-game variables
+// variable to keep track of missed guesses
 let missed_guess = 0;
+
 
 //arrays of phrases to select from
 const phrases = [
@@ -38,21 +40,21 @@ function getRandomPhraseAsArray(arr) {
 };
 
 
-//assign letters to li with appropriate class
-const chars = getRandomPhraseAsArray(phrases);
-const phraseDiv = document.getElementById('phrase');
-const phraseUl = phraseDiv.children[0];
-
-for (i = 0; i < chars.length; i++) {
-    const char = chars[i];
-    const phraseLi = document.createElement('li');
-    phraseLi.textContent = char;
-
-    if (char !== " ") {
-        phraseLi.className = 'letter';
-    } else {
-        phraseLi.className = 'space';
-    }
-    phraseUl.appendChild(phraseLi);
+//set letters to li and add letters to the display
+function addPhraseToDisplay(arr) {
+    const chars = getRandomPhraseAsArray(arr);
+    for (i = 0; i < chars.length; i++) {
+        const char = chars[i];
+        const phraseLi = document.createElement('li');
+        phraseLi.textContent = char;
+        if (char !== " ") {
+            phraseLi.className = 'letter';
+        } else {
+            phraseLi.className = 'space';
+        }
+        phraseUl.appendChild(phraseLi);
+    };
+    console.log(phraseDiv);
 };
-console.log(phraseDiv);
+
+addPhraseToDisplay(phrases);
