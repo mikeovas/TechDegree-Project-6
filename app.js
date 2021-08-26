@@ -3,7 +3,7 @@ const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
 const phraseDiv = document.getElementById('phrase');
 const phraseUl = phraseDiv.children[0];
-const start_game = document.querySelector('.btn_reset');
+const reset_game = document.querySelector('.btn_reset');
 
 
 // variable to keep track of missed guesses
