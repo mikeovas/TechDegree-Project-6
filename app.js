@@ -31,7 +31,7 @@ reset_game.addEventListener('click', () => {
 });
 
 
-//function to select a random phrase for the game and split into letters
+//function to select a random phrase for the game and split phrase into letters
 function getRandomPhraseAsArray(arr) {
     const arrayLength = arr.length;
     const randomNumber = Math.floor(Math.random() * arrayLength);
@@ -40,7 +40,7 @@ function getRandomPhraseAsArray(arr) {
 };
 
 
-//set letters to li and add letters to the display
+//sets letters to an li and adds the letters to the display
 function addPhraseToDisplay(arr) {
     const chars = getRandomPhraseAsArray(arr);
     for (i = 0; i < chars.length; i++) {
@@ -54,7 +54,24 @@ function addPhraseToDisplay(arr) {
         }
         phraseUl.appendChild(phraseLi);
     };
-    console.log(phraseDiv);
 };
 
+
+//check if chosen letter matches letter in a phrase
+
+
+function checkLetter(choice) {
+    const letterInLi = phraseUl.getElementsByTagName('li');
+    qwerty.addEventListener('click', (e) => {
+            const choice = e.value;
+            console.dir(e.target.firstChild.textContent);
+        }
+
+
+    )
+};
+
+
+//main function call
 addPhraseToDisplay(phrases);
+checkLetter(phrases);
