@@ -86,9 +86,25 @@ function checkLetter(choice) {
 
 // the event listener for the qwerty element to select a letter to guess and calls the checkLetter function to check if the choice is correct
 qwerty.addEventListener('click', (e) => {
+    e.target.classList.add('chosen');
     const choice = e.target.firstChild.textContent;
     checkLetter(choice);
+
+    if (match === null) {
+        missed_guess += 1;
+        console.log(missed_guess);
+    }
 });
+
+
+
+
+
+
+
+
+
+
 
 
 
