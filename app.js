@@ -2,15 +2,16 @@
 const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
 const phraseDiv = document.getElementById('phrase');
-const phraseUl = phraseDiv.children[0];
-const reset_game = document.querySelector('.btn__reset');
 
+const phraseUl = phraseDiv.children[0];
+
+const reset_game = document.querySelector('.btn__reset');
 
 // variable to keep track of missed guesses
 let missed_guess = 0;
 
 
-//arrays of phrases to select from
+//arrays of phrases to select letters from
 const phrases = [
     'not all who wander are lost',
     'you shall not pass',
@@ -26,6 +27,7 @@ const phrases = [
 
 
 //listens for the start game button
+//eventually turn into a reset game
 reset_game.addEventListener('click', () => {
     overlay.style.display = "none";
 });
@@ -40,7 +42,7 @@ function getRandomPhraseAsArray(arr) {
 };
 
 
-//sets letters to an li and adds the letters to the display
+//sets letters to a new li, adds a class and appends the letters to ul to display
 function addPhraseToDisplay(arr) {
     const chars = getRandomPhraseAsArray(arr);
     for (i = 0; i < chars.length; i++) {
@@ -57,21 +59,38 @@ function addPhraseToDisplay(arr) {
 };
 
 
-//check if chosen letter matches letter in a phrase
-
-
+//check if chosen letter is correct
+// stores all li elements in a variable and compares the letter in the li element with the letter chosen in the click event below
 function checkLetter(choice) {
-    const letterInLi = phraseUl.getElementsByTagName('li');
-    qwerty.addEventListener('click', (e) => {
-            const choice = e.value;
-            console.dir(e.target.firstChild.textContent);
-        }
+    const liWithLetters = phraseUl.getElementsByTagName('li');
+    let match = "";
 
+    for (i = 0; i < liWithLetters.length; i++) {
+        const li = liWithLetters[i];
+        const letterInPhrase = li.textContent;
 
-    )
+        if (choice === letterInPhrase) {
+            li.classList.add('show');
+            match = choice;
+        };
+    };
+
+    if (match === choice) {
+        return match;
+    } else {
+        match = null;
+        return match;
+    }
 };
+
+
+// the event listener for the qwerty element to select a letter to guess and calls the checkLetter function to check if the choice is correct
+qwerty.addEventListener('click', (e) => {
+    const choice = e.target.firstChild.textContent;
+    checkLetter(choice);
+});
+
 
 
 //main function call
 addPhraseToDisplay(phrases);
-checkLetter(phrases);
