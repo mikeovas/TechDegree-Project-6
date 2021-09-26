@@ -117,28 +117,6 @@ qwerty.querySelectorAll('button').forEach((element) => {
 });
 
 
-// qwerty.querySelectorAll('button').forEach((element) => {
-
-//     element.addEventListener('click', (e) => {
-//         e.target.classList.add('chosen');
-//         const choice = e.target.firstChild.textContent;
-//         console.log(choice);
-//         const match = checkLetter(choice);
-
-//         if (!match) {
-//             missed_guesses += 1;
-//             console.log('missed_guesses', missed_guesses);
-//             updateHearts();
-//         }
-
-//     });
-
-// });
-
-
-
-
-
 
 
 
