@@ -7,6 +7,8 @@ const resetGame = document.querySelector('.btn__reset');
 const heartTemplate = '<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>';
 
 
+
+
 // variable to keep track of missed guesses
 let missedGuesses = 0;
 const maxGuesses = 5;
@@ -64,7 +66,7 @@ function addPhraseToDisplay(arr) {
 function checkLetter(choice) {
     const liWithLetters = phraseUl.getElementsByTagName('li');
     console.log(liWithLetters);
-    let match = false;
+    let letterFound = false;
 
     for (i = 0; i < liWithLetters.length; i++) {
         const li = liWithLetters[i];
@@ -73,11 +75,11 @@ function checkLetter(choice) {
 
         if (choice === letterInPhrase) {
             li.classList.add('show');
-            match = true;
+            letterFound = true;
         }
     }
-    console.log(match);
-    return match;
+    console.log(letterFound);
+    return letterFound;
 }
 
 function updateHearts() {
@@ -88,6 +90,14 @@ function updateHearts() {
         lives.insertAdjacentHTML('beforeend', heartTemplate);
     }
 }
+
+
+function checkWin() {
+    const letter = document.getElementsByClassName('letter');
+    const show = document.getElementsByClassName('show');
+}
+
+
 
 
 //Event Listeners
@@ -107,9 +117,9 @@ qwerty.querySelectorAll('button').forEach((element) => {
         e.target.disabled = true;
         const choice = e.target.firstChild.textContent;
         console.log(choice);
-        const match = checkLetter(choice);
+        const letterFound = checkLetter(choice);
 
-        if (!match) {
+        if (!letterFound) {
             missedGuesses += 1;
             updateHearts();
         }
