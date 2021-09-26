@@ -2,13 +2,19 @@
 const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
 const phraseDiv = document.getElementById('phrase');
-
 const phraseUl = phraseDiv.children[0];
-
 const reset_game = document.querySelector('.btn__reset');
 
+const heartTemplate = '<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>';
+
+
+
 // variable to keep track of missed guesses
-let missed_guess = 0;
+let missed_guesses = 0;
+const max_guesses = 5;
+updateHearts();
+
+
 
 
 //arrays of phrases to select letters from
@@ -63,41 +69,56 @@ function addPhraseToDisplay(arr) {
 // stores all li elements in a variable and compares the letter in the li element with the letter chosen in the click event below
 function checkLetter(choice) {
     const liWithLetters = phraseUl.getElementsByTagName('li');
-    let match = "";
+    console.log(liWithLetters);
+    let match = false;
 
     for (i = 0; i < liWithLetters.length; i++) {
         const li = liWithLetters[i];
         const letterInPhrase = li.textContent;
+        console.log(letterInPhrase);
 
         if (choice === letterInPhrase) {
             li.classList.add('show');
-            match = choice;
-        };
-    };
-
-    if (match === choice) {
-        return match;
-    } else {
-        match = null;
-        return match;
+            match = true;
+        }
     }
-};
+
+    console.log(match);
+    return match;
+}
+
+function updateHearts() {
+
+    const lives = document.getElementById('lives');
+    lives.innerHTML = '';
+
+    numHearts = max_guesses - missed_guesses; //allows to change number of missed guesses as desired
+
+    for (i = 0; i < numHearts; i++) {
+        lives.insertAdjacentHTML('beforeend', heartTemplate);
+    }
+
+}
 
 
 // the event listener for the qwerty element to select a letter to guess and calls the checkLetter function to check if the choice is correct
-qwerty.addEventListener('click', (e) => {
-    e.target.classList.add('chosen');
-    const choice = e.target.firstChild.textContent;
-    checkLetter(choice);
+qwerty.querySelectorAll('button').forEach((element) => {
 
-    if (match === null) {
-        missed_guess += 1;
-        console.log(missed_guess);
-    }
+    element.addEventListener('click', (e) => {
+        e.target.classList.add('chosen');
+        const choice = e.target.firstChild.textContent;
+        console.log(choice);
+        const match = checkLetter(choice);
+
+        if (!match) {
+            missed_guesses += 1;
+            console.log('missed_guesses', missed_guesses);
+            updateHearts();
+        }
+
+    });
+
 });
-
-
-
 
 
 
