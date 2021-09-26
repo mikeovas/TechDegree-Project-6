@@ -85,7 +85,6 @@ function checkLetter(choice) {
 }
 
 function updateHearts() {
-
     const lives = document.getElementById('lives');
     lives.innerHTML = '';
     numHearts = max_guesses - missed_guesses; //allows to change number of missed guesses as desired
@@ -102,6 +101,7 @@ qwerty.querySelectorAll('button').forEach((element) => {
 
     element.addEventListener('click', (e) => {
         e.target.classList.add('chosen');
+        e.target.disabled = true;
         const choice = e.target.firstChild.textContent;
         console.log(choice);
         const match = checkLetter(choice);
@@ -117,6 +117,23 @@ qwerty.querySelectorAll('button').forEach((element) => {
 });
 
 
+// qwerty.querySelectorAll('button').forEach((element) => {
+
+//     element.addEventListener('click', (e) => {
+//         e.target.classList.add('chosen');
+//         const choice = e.target.firstChild.textContent;
+//         console.log(choice);
+//         const match = checkLetter(choice);
+
+//         if (!match) {
+//             missed_guesses += 1;
+//             console.log('missed_guesses', missed_guesses);
+//             updateHearts();
+//         }
+
+//     });
+
+// });
 
 
 
