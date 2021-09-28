@@ -1,4 +1,4 @@
-//selection of variables
+//Selection of Variables
 const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
 const phraseDiv = document.getElementById('phrase');
@@ -8,12 +8,12 @@ const heartTemplate = '<li class="tries"><img src="images/liveHeart.png" height=
 const headline = document.querySelector('.title');
 
 
-// variable to keep track of missed guesses
+// Variable to keep track of missed guesses
 let missedGuesses = 0;
 const maxGuesses = 5;
 
 
-//arrays of phrases to select letters from
+//Arrays of phrases to select letters from
 const phrases = [
     'not all who wander are lost',
     'you shall not pass',
@@ -34,7 +34,7 @@ const phrases = [
 updateHearts();
 
 
-//function to select a random phrase for the game and split phrase into letters
+//Selects a random phrase from an array and splits the phrase into letters and spaces
 function getRandomPhraseAsArray(arr) {
     const arrayLength = arr.length;
     const randomNumber = Math.floor(Math.random() * arrayLength);
@@ -43,7 +43,7 @@ function getRandomPhraseAsArray(arr) {
 }
 
 
-//sets letters to a new li, adds a class and appends the letters to ul to display
+//Sets letters to a new li, adds a 'letter' or 'space'class and appends the letters to the uL in order to display the phrase
 function addPhraseToDisplay() {
     phraseUl.innerHTML = "";
     const chars = getRandomPhraseAsArray(phrases);
@@ -61,7 +61,7 @@ function addPhraseToDisplay() {
 }
 
 
-//check if chosen letter is correct
+//checks if chosen letter is correct and if so adds 'show' class in order to show the chosen letter in the phrase
 // stores all li elements in a variable and compares the letter in the li element with the letter chosen in the click event below
 function checkLetter(choice) {
     const liWithLetters = phraseUl.getElementsByTagName('li');
@@ -78,7 +78,7 @@ function checkLetter(choice) {
 }
 
 
-// updates the number of lives/hearts on the screen
+// Updates the number of lives/hearts displayed on the screen
 function updateHearts() {
     const lives = document.getElementById('lives');
     lives.innerHTML = '';
@@ -88,18 +88,20 @@ function updateHearts() {
     }
 }
 
-// checks for a win by comparing number of correctly chosen letters with letters in the phrase
+
+// Checks for a win by comparing number of correctly chosen letters with letters in the phrase
 function checkWin() {
     const letter = document.getElementsByClassName('letter');
     const show = document.getElementsByClassName('show');
     if (letter.length === show.length) {
-        reset("win", 'You Win!!');
+        reset("win", 'Congrats! You have won!!');
     } else if (missedGuesses >= maxGuesses) {
-        reset('lose', 'You Lose!');
+        reset('lose', 'Sorry. You did not win.');
     }
 }
 
-//resets the game to a new game after a win or loss
+
+//Resets all game settings to start a new game after a win or loss
 function reset(result, message) {
     overlay.className = result;
     overlay.style.display = 'flex';
@@ -112,46 +114,31 @@ function reset(result, message) {
 
 //Event Listeners
 
-//listens for the start game button
-//eventually turn into a reset game
+//Listens for the start of a new game and starts the game over with new settings
 resetGame.addEventListener('click', () => {
-
     overlay.style.display = "none";
     addPhraseToDisplay(phrases);
     const btns = document.querySelectorAll('.keyrow button');
-
-
     for (i = 0; i < btns.length; i++) {
         btns[i].disabled = false;
         btns[i].classList.remove('chosen');
-        console.log(btns[i]);
     };
-
-
 });
 
 
-
-
-
-
-
-
-
-// the event listener for the qwerty element to select a letter to guess and calls the checkLetter function to check if the choice is correct
+// Listens for a guessed chosen letter from the qwerty element and calls the checkLetter function to check if the choice is correct
+//If guess is incorrect, the number of hearts/lives is updated using the updateHearts() function
+//Checks for a win with the checkWin() function after each click event
 qwerty.querySelectorAll('button').forEach((element) => {
-
     element.addEventListener('click', (e) => {
         e.target.classList.add('chosen');
         e.target.disabled = true;
         const choice = e.target.firstChild.textContent;
         const letterFound = checkLetter(choice);
-
         if (!letterFound) {
             missedGuesses += 1;
             updateHearts();
         }
         checkWin();
     });
-
 });
