@@ -119,17 +119,18 @@ resetGame.addEventListener('click', () => {
     overlay.style.display = "none";
     addPhraseToDisplay(phrases);
     const keyrows = document.getElementsByClassName('keyrow');
+    console.log(keyrows);
 
     for (i = 0; i < keyrows.length; i++) {
-        console.log(i)
-        console.log(keyrows[i])
+        console.log(i);
+        console.log(keyrows[i]);
 
 
         for (i = 0; i < keyrows.length; i++) {
             const btns = keyrows[i].getElementsByTagName('button');
             btns[i].disabled = false;
             btns[i].classList.remove('chosen');
-            console.log(btns)
+            console.log(btns[i]);
         };
     };
 
