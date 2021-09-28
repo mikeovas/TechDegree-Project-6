@@ -5,9 +5,7 @@ const phraseDiv = document.getElementById('phrase');
 const phraseUl = phraseDiv.children[0];
 const resetGame = document.querySelector('.btn__reset');
 const heartTemplate = '<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>';
-
 const headline = document.querySelector('.title');
-
 
 
 // variable to keep track of missed guesses
@@ -42,12 +40,13 @@ function getRandomPhraseAsArray(arr) {
     const randomNumber = Math.floor(Math.random() * arrayLength);
     const chosenPhrase = arr[randomNumber];
     return chosenPhrase.split("");
-};
+}
 
 
 //sets letters to a new li, adds a class and appends the letters to ul to display
-function addPhraseToDisplay(arr) {
-    const chars = getRandomPhraseAsArray(arr);
+function addPhraseToDisplay() {
+    phraseUl.innerHTML = "";
+    const chars = getRandomPhraseAsArray(phrases);
     for (i = 0; i < chars.length; i++) {
         const char = chars[i];
         const phraseLi = document.createElement('li');
@@ -59,58 +58,55 @@ function addPhraseToDisplay(arr) {
         }
         phraseUl.appendChild(phraseLi);
     };
-};
+}
 
 
 //check if chosen letter is correct
 // stores all li elements in a variable and compares the letter in the li element with the letter chosen in the click event below
 function checkLetter(choice) {
     const liWithLetters = phraseUl.getElementsByTagName('li');
-    // console.log(liWithLetters);
-    let letterFound = false;
-
+    let match = false;
     for (i = 0; i < liWithLetters.length; i++) {
         const li = liWithLetters[i];
         const letterInPhrase = li.textContent;
-        // console.log(letterInPhrase);
-
         if (choice === letterInPhrase) {
             li.classList.add('show');
-            letterFound = true;
+            match = true;
         }
     }
-    // console.log(letterFound);
-    return letterFound;
+    return match;
 }
 
+
+// updates the number of lives/hearts on the screen
 function updateHearts() {
     const lives = document.getElementById('lives');
     lives.innerHTML = '';
-    numHearts = maxGuesses - missedGuesses; //allows to change number of missed guesses as desired
+    numHearts = maxGuesses - missedGuesses;
     for (i = 0; i < numHearts; i++) {
         lives.insertAdjacentHTML('beforeend', heartTemplate);
     }
 }
 
-
+// checks for a win by comparing number of correctly chosen letters with letters in the phrase
 function checkWin() {
     const letter = document.getElementsByClassName('letter');
     const show = document.getElementsByClassName('show');
-
     if (letter.length === show.length) {
         reset("win", 'You Win!!');
     } else if (missedGuesses >= maxGuesses) {
-        console.log(missedGuesses);
-        console.log(maxGuesses);
         reset('lose', 'You Lose!');
     }
 }
 
+//resets the game to a new game after a win or loss
 function reset(result, message) {
     overlay.className = result;
     overlay.style.display = 'flex';
     headline.textContent = message;
     resetGame.innerHTML = "<a class='btn__reset'>Reset Game</a>";
+    missedGuesses = 0;
+    updateHearts();
 }
 
 
@@ -119,8 +115,32 @@ function reset(result, message) {
 //listens for the start game button
 //eventually turn into a reset game
 resetGame.addEventListener('click', () => {
+
     overlay.style.display = "none";
+    addPhraseToDisplay(phrases);
+    const keyrows = document.getElementsByClassName('keyrow');
+
+    for (i = 0; i < keyrows.length; i++) {
+        console.log(i)
+        console.log(keyrows[i])
+
+
+        for (i = 0; i < keyrows.length; i++) {
+            const btns = keyrows[i].getElementsByTagName('button');
+            btns[i].disabled = false;
+            btns[i].classList.remove('chosen');
+            console.log(btns)
+        };
+    };
+
 });
+
+
+
+
+
+
+
 
 
 // the event listener for the qwerty element to select a letter to guess and calls the checkLetter function to check if the choice is correct
@@ -130,7 +150,6 @@ qwerty.querySelectorAll('button').forEach((element) => {
         e.target.classList.add('chosen');
         e.target.disabled = true;
         const choice = e.target.firstChild.textContent;
-        // console.log(choice);
         const letterFound = checkLetter(choice);
 
         if (!letterFound) {
@@ -141,10 +160,3 @@ qwerty.querySelectorAll('button').forEach((element) => {
     });
 
 });
-
-
-
-
-
-//main function call
-addPhraseToDisplay(phrases);
