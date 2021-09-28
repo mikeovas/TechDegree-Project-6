@@ -4,7 +4,8 @@ const qwerty = document.getElementById('qwerty');
 const phraseDiv = document.getElementById('phrase');
 const phraseUl = phraseDiv.children[0];
 const resetGame = document.querySelector('.btn__reset');
-const heartTemplate = '<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>';
+const liveHeartTemplate = '<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>';
+const lostHeartTemplate = '<li class="tries"><img src="images/lostHeart.png" height="35px" width="30px"></li>';
 const headline = document.querySelector('.title');
 
 
@@ -84,7 +85,10 @@ function updateHearts() {
     lives.innerHTML = '';
     numHearts = maxGuesses - missedGuesses;
     for (i = 0; i < numHearts; i++) {
-        lives.insertAdjacentHTML('beforeend', heartTemplate);
+        lives.insertAdjacentHTML('beforeend', liveHeartTemplate);
+    }
+    for (i = 0; i < missedGuesses; i++) {
+        lives.insertAdjacentHTML('beforeend', lostHeartTemplate);
     }
 }
 
