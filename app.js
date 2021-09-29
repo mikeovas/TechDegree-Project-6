@@ -1,3 +1,5 @@
+//I am aiming for exceeds expectations.
+
 //Selection of Variables
 const overlay = document.getElementById('overlay');
 const qwerty = document.getElementById('qwerty');
